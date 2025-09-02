@@ -16,12 +16,12 @@ private:
 
 	// *** FIND TYPE METHODS ***
 
-	bool	_isChar(std::string const &str) const;
-	bool	_isInt(std::string const &str) const;
-	bool	_isFloat(std::string const &str) const;
-	bool	_isSpecialFloat(std::string const &str) const;
-	bool	_isDouble(std::string const &str) const;
-	bool	_isSpecialDouble(std::string const &str) const;
+	static bool	_isChar(std::string const &str);
+	static bool	_isInt(std::string const &str);
+	static bool	_isFloat(std::string const &str);
+	static bool	_isSpecialFloat(std::string const &str);
+	static bool	_isDouble(std::string const &str);
+	static bool	_isSpecialDouble(std::string const &str);
 
 public:
 	static void convert(std::string const &str);
