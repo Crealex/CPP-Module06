@@ -6,7 +6,7 @@
 /*   By: alexandre <alexandre@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 21:24:48 by alexandre         #+#    #+#             */
-/*   Updated: 2025/09/02 13:41:27 by alexandre        ###   ########.fr       */
+/*   Updated: 2025/09/08 17:57:50 by alexandre        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 
 int	main(int argc, char **argv)
 {
+//	std::cout << argc << std::endl;
+	//std::cout << argv[1] << std::endl;
 	if (argc != 2)
+	{
 		std::cerr << "Not the right number of arguments" << std::endl;
+		return (0);
+	}
 	ScalarConverter::convert(argv[1]);
 	// std::string ft = "42";
 	// int ft_int = std::atoi(ft.c_str());
