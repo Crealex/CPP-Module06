@@ -1,0 +1,63 @@
+1) Détection des types (_is*)
+
+Signes +/- : Que renvoie _isInt("-42") ou _isDouble("+3.14") chez toi ? Est-ce voulu que les signes ne soient pas acceptés ?
+
+Float sans point : _isFloat("12f") passe-t-il chez toi ? En C++, 12f n’est pas un littéral valide (il faut 12.0f, 12.f ou 1.2e1f). Comment t’assures-tu qu’il y a exactement un . ?
+
+Plusieurs points : Que se passe-t-il pour "1..2f" ou "1.2.3f" ? As-tu un garde-fou pour « au plus un point » ?
+
+Double « juste un point » : _isDouble(".5") est refusé (tu retournes false si le . est en position 0). Est-ce voulu ? En C++ 0.5 est valide, . initial seul ne l’est pas, mais .5 est souvent accepté par les parseurs — le sujet 42, lui, te demande quoi exactement ?
+
+Exposants : Gères-tu 1e3, 1e-3f ? (Souvent on n’exige pas les exposants au Module 06, mais tu veux peut-être les interdire explicitement.)
+
+Espaces : Que fait convert(" 42") ? Veux-tu refuser ou tolérer des espaces ?
+
+Spéciaux : Tu gères nanf, +/-inff, nan, +/-inf. Que renvoie le programme pour "-INF" (majuscules) ou "inf" sans signe ? Tu veux être strict ou tolérant ?
+
+2) Conversion & limites
+
+Overflow/underflow : Tu utilises atoi/atof. Que se passe-t-il pour un str comme "999999999999999999999999" ou "1e309" ? L’ex00 attend souvent « impossible » quand la valeur ne tient pas dans le type cible. Comment détectes-tu ça aujourd’hui ?
+
+Plage de char : Dans _displayResult, tu testes isprint(c) puis isascii(c). Si l’int converti vaut 1000, ton char peut devenir indéfini selon l’implémentation. Avant de tester « displayable/non displayable », comment t’assures-tu que la conversion en char est possible (plage 0..127 pour ASCII) ?
+
+Plage de int : Tu affiches toujours l’int. Mais si le double lu vaut 1e20, veux-tu afficher int: impossible ? Comment le décider sans strtol/ bornes (INT_MIN/INT_MAX) ?
+
+3) Format d’affichage
+
+Le “.0” : Tu détermines l’ajout de .0 par f - (int)f ? .... Que renvoie-tu pour -2.0f (attention au cast) ? Et pour des grands nombres (1e7f) où la précision binaire ne tombe pas pile ? As-tu envisagé un test du genre « est-ce un entier exact » via std::modf/std::floor ou au moins une vérification d’isfinite ?
+
+NaN/Inf : Tu as des branches spéciales 👍. As-tu vérifié que nan ne rajoute pas « .0 » par la voie standard ?
+
+Précision : Le sujet exige-t-il exactement une décimale quand valeur entière (42.0f / 42.0) ? As-tu testé setprecision/fixed (ou l’équivalent) pour éviter des sorties en notation scientifique non voulue ?
+
+4) Logique d’ordre dans convert
+
+Si une chaîne passe à la fois _isInt et _isDouble (ex : "42"), dans quel ordre traites-tu ? Est-ce aligné avec ce que le sujet attend (généralement int > double/float) ?
+
+5) Cas de test rapides à essayer
+
+Tu peux lancer ces entrées une par une et noter ce que ton programme affiche (et ce que tu attends qu’il affiche) :
+
+"a" • "~" • "\n"
+
+"0" • "-42" • "+42"
+
+"42.0" • "42." • ".42"
+
+"4.2f" • "12f" • "1..2f"
+
+"nan" • "nanf" • "+inf" • "-inff"
+
+"99999999999999999999" • "1e309" (overflow double)
+
+"256" pour char hors ASCII imprimable
+
+"127" et "128" pour tester la bascule d’affichage de char
+
+6) Détails style/robustesse
+
+En-têtes : tu utilises isdigit/isascii/isprint → penses-tu inclure <cctype> ?
+
+Classe statique : Tu as mis les canoniques en privé et tout en static → c’est conforme à l’esprit de l’exercice. As-tu aussi empêché l’instanciation dans le .cpp (tu ne l’utilises pas, donc OK) ?
+
+Messages d’erreur : Le sujet veut-il un wording précis pour « impossible »/« non displayable »/« Not a right type! » ? As-tu aligné exactement la casse et la ponctuation (les correcteurs sont tatillons) ?
