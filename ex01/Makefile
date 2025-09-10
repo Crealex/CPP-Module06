@@ -1,5 +1,5 @@
-NAME = scalarconverter
-SRCS = main.cpp ScalarConverter.cpp
+NAME = serializer
+SRCS = main.cpp Serializer.cpp
 OBJS	=	${SRCS:%.cpp=${OBJDIR}/%.o}
 OBJDIR = objets
 CFLAGS = -Werror -Wextra -Wall -std=c++98 -g

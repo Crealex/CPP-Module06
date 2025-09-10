@@ -1,7 +1,12 @@
 
+#ifndef DATA_HPP
+
+# define DATA_HPP
+
 typedef struct Data_s
 {
-	int valueOne;
-	int valueTwo;
-	int valueThree;
+	int value;
 }	Data;
+
+
+#endif
